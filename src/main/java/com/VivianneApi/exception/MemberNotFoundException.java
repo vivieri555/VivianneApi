@@ -1,4 +1,7 @@
 package com.VivianneApi.exception;
 
-public class MemberNotFoundException {
+public class MemberNotFoundException extends RuntimeException {
+    public MemberNotFoundException(Long id) {
+        super("Medlem med id " + id + " hittades inte");
+    }
 }
