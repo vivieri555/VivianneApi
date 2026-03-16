@@ -94,7 +94,7 @@ memberRepo.deleteById(id);
     @Transactional
     public MemberDto createWithAccount(MemberWithAccountCreateDto memberDto) {
         if (memberRepo.existsByEmail(memberDto.email())) {
-            throw new IllegalArgumentException("Användarnamnet med emailen är upptaget");
+            throw new IllegalArgumentException("Användarnamnet med emailen är upptaget"); }
             if(appUserRepo.existsByUsername(memberDto.username())) {
                 throw new IllegalArgumentException("Användarnamnet är upptaget");
             }
@@ -104,13 +104,6 @@ Member member = new Member(memberDto.firstName(), memberDto.lastName(), memberDt
             AppUser appUser = new AppUser(memberDto.username(), encoder.encode(memberDto.password()),
                     java.util.Set.of(Role.USER), member);
             appUserRepo.save(appUser);
-        }
+            return MemberMapper.toDto(member);
     }
-
-//    public List<Member> findMembers() {
-//        return memberRepo.findMembers(
-//                "Tomas",
-//                "Wigell"
-//        );
-//    }
 }
