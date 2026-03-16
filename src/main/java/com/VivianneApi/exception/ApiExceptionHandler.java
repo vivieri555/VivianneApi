@@ -22,5 +22,4 @@ public class ApiExceptionHandler {
                 )
         );
     }
-    //bygga upp error message här
 }

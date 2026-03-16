@@ -2,6 +2,9 @@ package com.VivianneApi.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "adress")
 public class Address {
@@ -20,13 +23,12 @@ public class Address {
     @Column(nullable = false, length = 100)
     private String city;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "member_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_address_member")
+    @OneToMany(
+            mappedBy = "member",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private Member member;
+    private List<Member> memberList = new ArrayList<>();
 
     protected Address() {}
 
@@ -56,7 +58,6 @@ public class Address {
                 ", street='" + street + '\'' +
                 ", postalCode=" + postalCode +
                 ", city='" + city + '\'' +
-                ", member=" + member +
                 '}';
     }
 }

@@ -2,8 +2,6 @@ package com.VivianneApi.entity;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "medlem")
@@ -32,12 +30,14 @@ public class Member {
     @Column(nullable = false, unique = true, length = 12)
     private int dateOfBirth;
 
-    @OneToMany(
-            mappedBy = "address",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+    //En adress kan kopplas till flera medlemmar
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "address_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_member_address")
     )
-    private List<Address> addressList = new ArrayList<>();
+    private Address addressFk;
 
     protected Member() {}
 
