@@ -2,6 +2,7 @@ package com.VivianneApi.service;
 
 import com.VivianneApi.dto.MemberCreateDto;
 import com.VivianneApi.dto.MemberDto;
+import com.VivianneApi.dto.MemberUpdateDto;
 import com.VivianneApi.dto.MemberWithAccountCreateDto;
 import com.VivianneApi.entity.Member;
 import com.VivianneApi.exception.MemberNotFoundException;
@@ -60,7 +61,7 @@ public class MemberService implements MemberServiceInterface {
 
     @Override
     @Transactional
-    public MemberDto update(MemberDto memberDto, Long id) {
+    public MemberDto update(MemberUpdateDto memberDto, Long id) {
         String currentUser = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
