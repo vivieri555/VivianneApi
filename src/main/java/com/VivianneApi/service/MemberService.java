@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static java.util.Arrays.stream;
 
 @Service
 public class MemberService implements MemberServiceInterface {
