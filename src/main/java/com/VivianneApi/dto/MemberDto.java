@@ -1,7 +1,9 @@
 package com.VivianneApi.dto;
 
 
+import com.VivianneApi.entity.Address;
+
 public record MemberDto (
-       Long id, String firstName, String lastName, String address, String email, String phone, String dateOfBirth
+        Long id, String firstName, String lastName, Address address, String email, String phone, String dateOfBirth
 ){
 }

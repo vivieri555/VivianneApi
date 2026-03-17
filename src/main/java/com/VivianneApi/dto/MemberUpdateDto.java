@@ -1,5 +1,6 @@
 package com.VivianneApi.dto;
 
+import com.VivianneApi.entity.Address;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -10,7 +11,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 public record MemberUpdateDto (
         @NotBlank @Size(max = 50) String firstName,
         @NotBlank @Size(max = 50) String lastName,
-        @NotBlank @Size(max = 100) String address,
+        @NotBlank @Size(max = 100) Address address,
         @NotBlank @Email @Size(max = 110) String email,
         @Size(max = 10) String phone,
         @NotBlank @Size(max = 12) String dateOfBirth
