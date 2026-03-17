@@ -18,8 +18,8 @@ public class Member {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    @Column(nullable = false, length = 100)
-    private String address;
+//    @Column(nullable = false, length = 100)
+//    private String address;
 
     @Column(nullable = false, length = 110)
     private String email;
@@ -28,7 +28,7 @@ public class Member {
     private String phone;
 
     @Column(nullable = false, unique = true, length = 12)
-    private int dateOfBirth;
+    private String dateOfBirth;
 
     //En adress kan kopplas till flera medlemmar
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -37,11 +37,11 @@ public class Member {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_member_address")
     )
-    private Address addressFk;
+    private Address address;
 
     protected Member() {}
 
-    public Member(String firstName, String lastName, String address, String email, String phone, int dateOfBirth) {
+    public Member(String firstName, String lastName, Address address, String email, String phone, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -61,8 +61,8 @@ public class Member {
     public String getLastName() { return lastName;}
     public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address;}
+    public Address getAddress() { return address; }
+    public void setAddress(Address address) { this.address = address;}
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -70,8 +70,8 @@ public class Member {
     public String getPhone() { return phone;}
     public void setPhone(String phone) { this.phone = phone; }
 
-    public int getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(int dateOfBirth) { this.dateOfBirth = dateOfBirth;}
+    public String getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth;}
 
     @Override
     public String toString() {

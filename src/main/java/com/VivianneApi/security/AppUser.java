@@ -17,7 +17,7 @@ public class AppUser {
     @Column(nullable = false, unique = true, length = 100)
     private String username;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 80)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)

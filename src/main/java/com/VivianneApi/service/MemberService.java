@@ -78,6 +78,7 @@ public class MemberService implements MemberServiceInterface {
         member.setEmail(memberDto.email());
         member.setPhone(memberDto.phone());
         member.setAddress(memberDto.address());
+        member.setDateOfBirth(memberDto.dateOfBirth());
 
         return MemberMapper.toDto(member);
     }

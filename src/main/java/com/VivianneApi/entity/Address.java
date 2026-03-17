@@ -24,11 +24,11 @@ public class Address {
     private String city;
 
     @OneToMany(
-            mappedBy = "member",
+            mappedBy = "address",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Member> memberList = new ArrayList<>();
+    private List<Member> membersList = new ArrayList<>();
 
     protected Address() {}
 
