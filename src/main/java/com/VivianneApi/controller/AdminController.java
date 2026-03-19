@@ -1,5 +1,7 @@
 package com.VivianneApi.controller;
 
+import com.VivianneApi.dto.AdminDto;
+import com.VivianneApi.dto.MemberDto;
 import com.VivianneApi.dto.UpdateRolesDto;
 import com.VivianneApi.dto.UserRolesDto;
 import com.VivianneApi.repository.AppUserRepository;
@@ -30,6 +32,12 @@ public class AdminController {
                 .map(user -> new UserRolesDto(user.getUsername(), user.getRoles()))
                 .toList();
     }
+    @GetMapping
+    public List<AdminDto> list() { return userAdminService.findAllForAdmin(); }
+
+    @GetMapping("/{id}")
+    public AdminDto get(@PathVariable Long id) { return userAdminService.findById(id); }
+
     @PatchMapping("/{username}/roles")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> updateRoles(@PathVariable String username,
