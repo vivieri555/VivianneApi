@@ -2,10 +2,8 @@ package com.VivianneApi.dto;
 
 import com.VivianneApi.entity.Address;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.UniqueElements;
 
 public record MemberCreateDto (
         @NotBlank @Size(max = 50) String firstName,

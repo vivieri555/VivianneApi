@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/mypages/members")
 public class MemberController {
 
 private final MemberService memberService;
@@ -26,23 +26,8 @@ public MemberController(MemberService memberService) {
     @GetMapping("/{id}")
     public MemberDto get(@PathVariable Long id) { return memberService.findById(id); }
 
-    @PostMapping
-    public ResponseEntity<MemberDto> create(@RequestBody @Valid MemberCreateDto dto) {
-    MemberDto saved = memberService.create(dto);
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(saved.id())
-            .toUri();
-    return ResponseEntity.created(location).body(saved);
-    }
-
     @PutMapping("/{id}")
     public MemberDto update(@PathVariable Long id, @RequestBody @Valid MemberUpdateDto dto) {
     return memberService.update(dto, id);
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-    memberService.delete(id);
-    return ResponseEntity.noContent().build();
     }
 }

@@ -1,53 +1,57 @@
 package com.VivianneApi.controller;
 
-import com.VivianneApi.dto.AdminDto;
-import com.VivianneApi.dto.MemberDto;
-import com.VivianneApi.dto.UpdateRolesDto;
-import com.VivianneApi.dto.UserRolesDto;
+import com.VivianneApi.dto.*;
 import com.VivianneApi.repository.AppUserRepository;
 import com.VivianneApi.service.UserAdminService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/user")
+@RequestMapping("/admin/members")
 public class AdminController {
 
     private final UserAdminService userAdminService;
-    private final AppUserRepository appUserRepo;
-    public AdminController(UserAdminService userAdminService, AppUserRepository appUserRepo) {
+    public AdminController(UserAdminService userAdminService) {
         this.userAdminService = userAdminService;
-        this.appUserRepo = appUserRepo;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<UserRolesDto> listAll() {
-        return appUserRepo.findAll()
-                .stream()
-                .map(user -> new UserRolesDto(user.getUsername(), user.getRoles()))
-                .toList();
-    }
-    @GetMapping
     public List<AdminDto> list() { return userAdminService.findAllForAdmin(); }
 
     @GetMapping("/{id}")
-    public AdminDto get(@PathVariable Long id) { return userAdminService.findById(id); }
-
-    @PatchMapping("/{username}/roles")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> updateRoles(@PathVariable String username,
-                                            @RequestBody @Valid UpdateRolesDto dto) {
-        userAdminService.updateRoles(username, dto);
-        return ResponseEntity.noContent().build();
+    public AdminDto findListById(@PathVariable Long id) { return userAdminService.findById(id); }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public AdminDto update(@PathVariable Long id, @RequestBody @Valid MemberUpdateDto dto) {
+    return userAdminService.update(dto, id);
     }
-    @GetMapping("/{username}/roles")
+    @PatchMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserRolesDto> getRoles(@PathVariable String username) {
-        return ResponseEntity.ok(userAdminService.getRoles(username));
+    public ResponseEntity<AdminDto> updateMember(@PathVariable Long id, @RequestBody MemberUpdateDto dto) {
+        AdminDto updated = userAdminService.updateMember(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<MemberDto> create(@RequestBody @Valid MemberCreateDto dto) {
+        MemberDto saved = userAdminService.create(dto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.id())
+                .toUri();
+        return ResponseEntity.created(location).body(saved);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userAdminService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
