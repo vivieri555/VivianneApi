@@ -1,19 +1,14 @@
 package com.VivianneApi.service;
 
-import com.VivianneApi.dto.MemberCreateDto;
-import com.VivianneApi.dto.MemberDto;
-import com.VivianneApi.dto.MemberUpdateDto;
-import com.VivianneApi.dto.MemberWithAccountCreateDto;
+import com.VivianneApi.dto.*;
 import com.VivianneApi.entity.Member;
 import com.VivianneApi.exception.MemberNotFoundException;
 import com.VivianneApi.mapper.MemberMapper;
 import com.VivianneApi.repository.AppUserRepository;
 import com.VivianneApi.repository.MemberRepository;
 import com.VivianneApi.security.AppUser;
-import com.VivianneApi.security.Role;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,38 +20,20 @@ public class MemberService implements MemberServiceInterface {
 
     private final MemberRepository memberRepo;
     private final AppUserRepository appUserRepo;
-    private final PasswordEncoder encoder;
 
     public MemberService(MemberRepository memberRepo,
-                         AppUserRepository appUserRepo, PasswordEncoder encoder) {
+                         AppUserRepository appUserRepo) {
         this.memberRepo = memberRepo;
         this.appUserRepo = appUserRepo;
-        this.encoder = encoder;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<MemberDto> findAll() {
-        return memberRepo.findAll()
+    public List<MemberListDto> findAll() {
+        return memberRepo.findMembers()
             .stream()
-                    .map(MemberMapper::toDto)
+                    .map(MemberMapper::toDtoList)
                     .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public MemberDto findById(Long id) {
-        return memberRepo.findById(id)
-                .map(MemberMapper::toDto)
-                .orElseThrow(()-> new MemberNotFoundException(id));
-    }
-
-    @Override
-    @Transactional
-    public MemberDto create(MemberCreateDto memberDto) {
-        Member entity = MemberMapper.fromCreate(memberDto);
-        Member saved = memberRepo.save(entity);
-        return MemberMapper.toDto(saved);
     }
 
     @Override
@@ -81,30 +58,5 @@ public class MemberService implements MemberServiceInterface {
         member.setDateOfBirth(memberDto.dateOfBirth());
 
         return MemberMapper.toDto(member);
-    }
-
-    @Override
-    public void delete(Long id) {
-if(!memberRepo.existsById(id)) {
-    throw new MemberNotFoundException(id);
-}
-memberRepo.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public MemberDto createWithAccount(MemberWithAccountCreateDto memberDto) {
-        if (memberRepo.existsByEmail(memberDto.email())) {
-            throw new IllegalArgumentException("Användarnamnet med emailen är upptaget"); }
-            if(appUserRepo.existsByUsername(memberDto.username())) {
-                throw new IllegalArgumentException("Användarnamnet är upptaget");
-            }
-Member member = new Member(memberDto.firstName(), memberDto.lastName(), memberDto.address()
-,memberDto.email(), memberDto.phone(), memberDto.dateOfBirth());
-            memberRepo.save(member);
-            AppUser appUser = new AppUser(memberDto.username(), encoder.encode(memberDto.password()),
-                    java.util.Set.of(Role.USER), member);
-            appUserRepo.save(appUser);
-            return MemberMapper.toDto(member);
     }
 }

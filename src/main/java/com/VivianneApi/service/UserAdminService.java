@@ -11,7 +11,6 @@ import com.VivianneApi.security.AppUser;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,11 +51,6 @@ public class UserAdminService {
         return MemberMapper.toDtoAdmin(savedUser);
     }
 
-    public UserRolesDto getRoles(String username) {
-        var user = appUserRepo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-        return new UserRolesDto(user.getUsername(), user.getRoles());
-    }
     //Göra om lista medlemmar
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -100,9 +94,9 @@ public class UserAdminService {
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public MemberDto create(MemberCreateDto memberDto) {
-        if(appUserRepo.existsByEmail(memberDto.email())) {
-            throw new EmailAlreadyExists(memberDto.email());
-        }
+//        if(appUserRepo.existsByEmail(memberDto.email())) {
+//            throw new EmailAlreadyExists(memberDto.email());
+//        }
 
         Member entity = MemberMapper.fromCreate(memberDto);
         Member saved = memberRepo.save(entity);

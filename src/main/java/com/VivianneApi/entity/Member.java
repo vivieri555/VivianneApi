@@ -19,9 +19,6 @@ public class Member {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-//    @Column(nullable = false, length = 100)
-//    private String address;
-
     @Column(nullable = false, length = 110)
     private String email;
 

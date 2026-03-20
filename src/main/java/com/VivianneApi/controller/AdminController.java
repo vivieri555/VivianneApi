@@ -1,7 +1,6 @@
 package com.VivianneApi.controller;
 
 import com.VivianneApi.dto.*;
-import com.VivianneApi.repository.AppUserRepository;
 import com.VivianneApi.service.UserAdminService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +27,13 @@ public class AdminController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminDto findListById(@PathVariable Long id) { return userAdminService.findById(id); }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminDto update(@PathVariable Long id, @RequestBody @Valid MemberUpdateDto dto) {
     return userAdminService.update(dto, id);
     }
-    @PatchMapping
+    @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AdminDto> updateMember(@PathVariable Long id, @RequestBody MemberUpdateDto dto) {
         AdminDto updated = userAdminService.updateMember(id, dto);
