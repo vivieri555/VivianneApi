@@ -39,7 +39,8 @@ public class Member {
 
     protected Member() {}
 
-    public Member(String firstName, String lastName, Address address, String email, String phone, String dateOfBirth) {
+    public Member(String firstName, String lastName, Address address, String email,
+                  String phone, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

@@ -57,6 +57,7 @@ public class UserAdminService {
     public List<AdminDto> findAllForAdmin() {
         return appUserRepo.findAll()
                 .stream()
+                .filter(user -> user.getMember() != null)
                 .map(MemberMapper::toDtoAdmin)
                 .toList();
     }

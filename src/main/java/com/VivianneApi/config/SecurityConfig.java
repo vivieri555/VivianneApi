@@ -15,12 +15,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf().disable()
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.POST, "/api/member", "/api/member/")
+                    .requestMatchers(HttpMethod.POST, "/admins/members", "/admin/members/")
                     .permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/api/member/**").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(HttpMethod.PUT, "/api/member/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.DELETE, "/api/member/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/mypages/members/**").hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/mypages/members/**").hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/admin/members/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
             )
             .httpBasic(org.springframework.security.config.Customizer.withDefaults());

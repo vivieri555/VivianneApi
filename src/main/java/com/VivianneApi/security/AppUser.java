@@ -27,8 +27,20 @@ public class AppUser {
     private Set<Role> roles;
 
     //Connecta member och user
-    @OneToOne
-    @JoinColumn(name = "member_id")
+
+    @OneToOne(
+            cascade = CascadeType.REFRESH,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "member_id",
+            nullable = true,
+            unique = true,
+            foreignKey = @ForeignKey(name = "fk_appuser_member")
+    )
+//    @OneToOne
+//    @JoinColumn(name = "member_id")
     private Member member;
 
     protected AppUser() {}

@@ -1,5 +1,6 @@
 package com.VivianneApi.repository;
 
+import com.VivianneApi.dto.MemberListDto;
 import com.VivianneApi.entity.Address;
 import com.VivianneApi.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
    // Om man vill göra egen query
         @Query("""
-            SELECT m.firstName, m.lastName, m.address, m.email, m.phone
+            SELECT new com.VivianneApi.dto.MemberListDto(m.id, m.firstName, m.lastName,
+                        m.address, m.email, m.phone)
             FROM Member m
             ORDER BY m.lastName DESC
             """)
