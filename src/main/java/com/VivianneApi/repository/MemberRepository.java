@@ -21,5 +21,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             FROM Member m
             ORDER BY m.lastName DESC
             """)
-        List<Member> findMembers();
+        List<MemberListDto> findMembers();
 }

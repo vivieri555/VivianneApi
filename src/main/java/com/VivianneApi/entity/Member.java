@@ -2,6 +2,7 @@ package com.VivianneApi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -35,6 +36,7 @@ public class Member {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_member_address")
     )
+    @Valid
     private Address address;
 
     protected Member() {}

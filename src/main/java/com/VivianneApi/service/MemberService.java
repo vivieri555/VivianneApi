@@ -30,10 +30,7 @@ public class MemberService implements MemberServiceInterface {
     @Override
     @Transactional(readOnly = true)
     public List<MemberListDto> findAll() {
-        return memberRepo.findMembers()
-            .stream()
-                    .map(MemberMapper::toDtoList)
-                    .toList();
+        return memberRepo.findMembers();
     }
 
     @Override
